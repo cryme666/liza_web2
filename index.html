@@ -26,7 +26,7 @@
 							<a class="nav-link" href="about.html">Про нас</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#" id="goodsBtn">Товари</a>
+							<a class="nav-link" href="products.html">Товари</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="contact.html">Контакти</a>
@@ -44,56 +44,19 @@
 		<div class="container text-center">
 			<img src="Photos/Main Photo.png" alt="Can't load the photo" id="banner-image" class="rounded m-3 w-75">
 		</div>
-<!-- 
-		<button class="btn btn-primary back-to-top position-fixed d-none" type="button" id="btnUp" style="bottom: 50px;
-      right: 20px;">
-			<i class="bi bi-arrow-up-circle"></i> Уверх
-		</button>
 
-		<section>
-			<div class="container mb-5" id="goods">
-				<div class="row">
-					<div class="col text-center">
-						<button class="btn btn-primary text-uppercase m-2" id="show-images-btn">Показати
-							товари</button>
-					</div>
-				</div>
-
-				<div class="filter-btn text-center d-none" id="filter-btn">
-					<ul class="list-unstyled mt-4">
-						<button class="btn btn-outline-secondary active">
-							<li data-f="all">Всі</li>
-						</button>
-
-						<button class="btn btn-outline-secondary">
-							<li data-f="male">Чоловіче</li>
-						</button>
-
-						<button class="btn btn-outline-secondary">
-							<li data-f="female">Жіноче</li>
-						</button>
-					</ul>
-				</div>
-
-				<div class="row text-center h5 justify-content-center" id="images-container">
-		
-				</div>
-			</div>
-		</section>
-
-		
 		<div class="modal" id="subscribeModal" tabindex="-1" role="dialog">
-			<div class="modal-dialog">
+			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title">Підписатися на повідомлення</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
+
 					<div class="modal-body">
-						<p class="text-center">Підпишіться на наші повідомлення, щоб отримувати новини та спеціальні
-							пропозиції!</p>
+						<p class="text-center">Підпишіться на наші повідомлення, щоб отримувати новини та спеціальні пропозиції!</p>
 					</div>
-					<div class="modal-footer">
+					<div class="modal-footer justify-content-center">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Відхилити</button>
 						<button type="button" class="btn btn-primary" id="subscribeButton">Підписатися</button>
 					</div>
@@ -101,27 +64,24 @@
 			</div>
 		</div>
 
-		<div class="modal" id="advertismentModal" tabindex="-1">
-			<div class="modal-dialog modal-fullscreen">
-				<div class="modal-content">
-					<div class="modal-header justify-content-end">
-						<h5 class="modal-title">Рекламна пропозиція</h5>
-						<button type="button" class="btn-close" id="closeButton" data-bs-dismiss="modal"
-							aria-label="Close" disabled></button>
-					</div>
-					<div class="modal-body">
-						<p>Тут може бути ваша реклама...</p>
-					</div>
-					<div class="modal-footer justify-content-center">
-						<p class="m-3" id="timer-message">Ви зможете закрити вікно через...
-							<strong id="timer">15</strong>
-						</p>
-						<a href="index.html"><button type="button" class="btn btn-primary" id="advButton">Перейти на
-								сайт</button></a>
-					</div>
-				</div>
-			</div>
-		</div> -->
+<div id="advertisementModal" class="modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title">Рекламна пропозиція</h5>
+		  <button id="closeButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" disabled></button>
+		</div>
+		<div class="modal-body">
+		  <p>Вино Marlborough Sun Совіньйон Блан Мальборо Сан</p>
+		  <img src="Photos/Photo-1.png" alt="adv" class="img-fluid"> 
+		  <div id="countdown" class="text-center mt-3"></div> 
+		</div>
+	  </div>
+	</div>
+  </div>
+  
+  
+		
 	</main>
 
 	<footer class="bg-dark text-light py-3 bottom-0 w-100 position-absolute" id="footer">
