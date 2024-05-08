@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
 		
         const subscribeButton = document.getElementById('subscribeButton');
-        subscribeButton.addEventListener('click', function() {
+        subscribeButton.addEventListener('click', function() {	
             localStorage.setItem('subscribed', true);
             no_modal.hide();	
             alert('Дякуємо за підписку!');
