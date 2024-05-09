@@ -72,21 +72,21 @@ function addImageToContainer(image) {
     const descriptionPrice = document.createElement("p");
     descriptionPrice.classList.add("card-text");
     descriptionPrice.textContent = image.price;
-
+    
     const button = document.createElement("button");
     button.classList.add("btn", "btn-primary");
     button.textContent = "Додати в кошик";
-
+    
     // Обробник події на клік для опису
     descriptionTitle.addEventListener('click', function () {
         descriptionPrice.classList.toggle('d-none');
     });
-
+    
     // Обробник події на клік для зображення
     imageElement.addEventListener('click', function () {
         descriptionPrice.classList.toggle('d-none');
     });
-
+    
     // Обробник події на клік для кнопки
     button.addEventListener('click', function () {
         const item = {
@@ -98,7 +98,7 @@ function addImageToContainer(image) {
         my_basket[image.description] = item;
         alert('Товар успішно додано в кошик!');
     });
-
+    
     // Додати зображення, опис та кнопку до картки товару
     imageCardBody.appendChild(imageElement);
     imageDescription.appendChild(descriptionTitle);
@@ -107,12 +107,37 @@ function addImageToContainer(image) {
     imageCardBody.appendChild(imageDescription);
     imageCard.appendChild(imageCardBody);
     imageContainer.appendChild(imageCard);
+    
+    
 }
 
 const modal = new bootstrap.Modal(document.getElementById('basketModal'));
 const imageContainer = document.getElementById('images-container');
-document.addEventListener('DOMContentLoaded', function () {
+const showGraphsButton = document.getElementById('show-graphs');
+const chartTypeSelect = document.getElementById('chart-type-select');
+const chartContainer = document.getElementById('chart-container');
+let currentChart;
+let pieChartData;
+chartTypeSelect.addEventListener('change', function () {
+    const selectedChartType = chartTypeSelect.value;
+    pieChartData = generateChartData(my_basket);
+    switch (selectedChartType) {
+        case 'pie':
+            renderPieChart(pieChartData);
+            break;
+        case 'bar':
+            renderBarChart(pieChartData)
+            break;
+        case 'line':
+            renderLineChart(pieChartData);
+            break;
+        default:
+            break;
+    }
+});
 
+document.addEventListener('DOMContentLoaded', function () {
+    
 
     // Додати перші три зображення до контейнера при завантаженні сторінки
     images.slice(0, 3).forEach(function (image) {
@@ -147,6 +172,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     const checkoutButton = document.querySelector('.btn-primary');
+    const graphModal = new bootstrap.Modal(document.getElementById('graphModal'));
+    
     checkoutButton.addEventListener('click', function() {
         // Виведення повідомлення про успішне оформлення замовлення
         alert('Замовлення успішно сформовано!');
@@ -158,7 +185,114 @@ document.addEventListener('DOMContentLoaded', function () {
         // Закриття модального вікна кошика
         modal.hide();
     });
+    
+    showGraphsButton.addEventListener('click', function () {
+    if (Object.keys(my_basket).length === 0) {
+        alert("Ви ще не обрали жодного товару");
+        return;
+    } 
+    
+    pieChartData = generateChartData(my_basket); // Генеруємо дані для кругової діаграми
+    renderPieChart(pieChartData); // Рендеримо кругову діаграму
+    
+    // Відображаємо модальне вікно
+    graphModal.show();
 });
+
+// Додаємо обробник події для закриття модального вікна
+graphModal.addEventListener('hidden.bs.modal', function () {
+    // Знищуємо попередній графік перед закриттям модального вікна
+    if (currentChart) {
+        currentChart.destroy();
+    }
+});
+});
+
+function generateChartData(basketData) {
+    const labels = [];
+    const values = [];
+    const colors = [];
+    // Проходимося по кожному товару у кошику
+    for (const itemName in basketData) {
+        if (basketData.hasOwnProperty(itemName)) {
+            const item = basketData[itemName];
+            labels.push(itemName); // Додаємо назву товару в масив міток
+            values.push(1); // Додаємо значення 1 для кожного товару
+            // Генеруємо випадковий колір для товару
+            const color = '#' + Math.floor(Math.random()*16777215).toString(16);
+            colors.push(color); // Додаємо випадковий колір у масив кольорів
+        }
+    }
+    // Повертаємо об'єкт зі згенерованими даними для кругової діаграми
+    return { labels, values, colors };
+}
+
+
+// const chartContainer = document.getElementById('chart-container');
+function renderPieChart(data) {
+    // Знищення попереднього графіка перед створенням нового
+    if (currentChart) {
+        currentChart.destroy();
+    }
+    
+    currentChart = new Chart(chartContainer, {
+        type: 'pie',
+        data: {
+            labels: data.labels,
+            datasets: [{
+                data: data.values,
+                backgroundColor: data.colors
+            }]
+        },
+        options: {
+            // Додаткові налаштування можна додати тут
+        }
+    });
+    
+}
+
+function renderBarChart(data) {
+    // Очистити попередній графік, якщо він існує
+    if (currentChart) {
+        currentChart.destroy();
+    }
+
+    // Створити новий Chart.js графік у контейнері
+    currentChart = new Chart(chartContainer, {
+        type: 'bar',
+        data: {
+            labels: data.labels,
+            datasets: [{
+                data: data.values,
+                backgroundColor: data.colors
+            }]
+        },
+        options: {
+            // Додаткові налаштування можна додати тут
+        }
+    });
+}
+
+function renderLineChart(data) {
+    if (currentChart) {
+        currentChart.destroy();
+    }
+
+     // Створити новий Chart.js графік у контейнері
+     currentChart = new Chart(chartContainer, {
+        type: 'line',
+        data: {
+            labels: data.labels,
+            datasets: [{
+                data: data.values,
+                backgroundColor: data.colors
+            }]
+        },
+        options: {
+            // Додаткові налаштування можна додати тут
+        }
+    });
+}
 
 // Функція для сортування масиву за назвою
 function sortByTitle() {
@@ -239,3 +373,5 @@ function renderBasketItems() {
                               <p>Загальна ціна: ${totalPrice.toFixed(2)} UAH</p>`;
     modalBody.appendChild(totalSection);
 }
+
+
